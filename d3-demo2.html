@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Attaching data to SVGs" content="In this demo data it was demonstrated how to attach a dataset to a svg element">
+    <title>D3 Demo 2</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+  </head>
+  <body>
+    <script>
+
+      var canvas =  d3.select("body")
+                      .append("svg")
+                      .attr("width",500)
+                      .attr("height",500);
+
+      // "canvas.selectAll("rect")": bars are rectangles, so we select all rectanngles. This "canvas.selectAll("rect")" returns an empty selection which is still valuable as we can bind data to this empty selection. returns an empty array
+
+      //.data(dataArray): we bind our data using .data with the data source dataArray passed as an argument
+
+      //.enter(): returns place holders for which there are no corresponding DOM elements on the page. In our case since there're no "rect" elements to bind the data to the enter() method will create 3 placeholder elements to that corresponds to each of our datapoints ([20,40,50 ]). This returns a new selection containing 3 placeholders
+
+      //.append("rect"): we then append a rectangle for each placeholder value in our selection
+
+      //.attr("width", function(d) ): for each value in our new collection  of placeholders the width will correspond to the that value; d is the conventional variable for a datapoint. since .attr is attached to a collection it goes through each value and apply the property
+
+      //.attr("y", function(d,i){ return i * 100 }): we need to space out each bar since svg starts drawing from the corner (0,0). the callback funciton "function(d,i)" takes two arguments, where "d" is the data point and "i" is the index
+
+
+      //Using an audio a tag, the bars increment with playtime  by simply adding to the exsisting array of data
+
+      var dataArray = [20,50,30];
+
+      var bars = canvas.selectAll("rect")
+                      .data(dataArray)
+                      .enter()
+                      .append("rect")
+                      .on("mouseover", function(d){
+                        d3.select(this).attr("fill", "orange")
+                      })
+                      .on("mouseout", function(d){
+                        d3.select(this).attr("fill", "black");
+                      })
+                      .attr("width", function(d) { return d * 10;})
+                      .attr("height", 50)
+                      .attr("y", function(d,i){ return i * 100 })
+
+    </script>
+  </body>
+</html>

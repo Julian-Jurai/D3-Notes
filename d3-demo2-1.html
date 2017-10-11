@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Using web audio" content="In this demo audio data  attached to a svg bar element">
+    <title>D3 Demo 2.1</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+  </head>
+  <body>
+
+    <audio controls>
+      <source src="./assets/song.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+
+      var canvas =  d3.select("body")
+                      .append("svg")
+                      .attr("width",500)
+                      .attr("height",500);
+
+      const incrementBars = (audio,analyser,frequencyData,bars) => {
+        analyser.getByteFrequencyData(frequencyData);
+        bars.attr("width", function(d,i) { return frequencyData[i] * 1.5 });
+        bars.attr("fill", function(d,i) {
+          let amp = frequencyData[i]
+              if (amp > 50 &&  amp < 150) {
+                return "green";
+              } else if (amp > 150 && amp < 200) {
+                return "blue";
+              } else if (amp > 200 && amp < 250) {
+                return "red";
+              } else if (amp > 250) {
+                return "orange"
+              }
+        });
+
+
+
+        if (audio.duration <= audio.currentTime || audio.paused){
+          window.cancelAnimationFrame(incrementBars.bind(
+            null,audio,analyser,frequencyData,bars
+          ));
+          clearInterval(window.player)
+          console.log("stopped");
+        } else if (!audio.paused){
+          console.log("playing");
+          window.requestAnimationFrame(
+            incrementBars.bind(
+              null,audio,analyser,frequencyData,bars
+            )
+          );
+        }
+      }
+
+      var audio = d3.select("audio")[0][0]
+      audio.addEventListener("play", function () {
+        incrementBars(audio,analyser,frequencyData,bars);
+      });
+      var context = new AudioContext();
+      var source = context.createMediaElementSource(audio);
+      var analyser = context.createAnalyser();
+      var frequencyData = new Uint8Array(analyser.frequencyBinCount);
+      source.connect(analyser)
+      source.connect(context.destination);
+
+      //test
+      window.audio = audio
+      window.frequencyData = frequencyData
+      window.analyser = analyser
+      window.bars = bars
+      window.play = audio.play()
+      //test ends
+
+      var dataArray = [];
+      for (var i = 0; i < 60; i++) {
+        dataArray.push(0)
+      }
+
+      var bars = canvas.selectAll("rect")
+                      .data(dataArray)
+                      .enter()
+                      .append("rect")
+                      .on("mouseover", function(d){
+                        d3.select(this).attr("fill", "purple")
+                      })
+                      .on("mouseout", function(d){
+                        d3.select(this).attr("fill", "black");
+                      })
+                      .attr("width", function(d) { return d;})
+                      .attr("height", 5)
+                      .attr("y", function(d,i){ return i * 10 })
+
+      incrementBars(audio,analyser,frequencyData,bars);
+
+    </script>
+  </body>
+</html>

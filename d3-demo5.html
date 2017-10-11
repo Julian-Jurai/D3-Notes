@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Using Exit" content="In this demo it was demonstrated how enter,update and exit selection works when attaching data to selected DOM elements">
+    <title>D3 Demo 5</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+      //There are 3 possiblilies for attaching data to selected DOM elememts:
+      //No. DOM elememts < No. data elememts (enter selection)
+      //No. DOM elememts > No. data elememts (exit selection)
+      //No. DOM elememts < No. data elememts (update selection)
+
+
+      //CASE 1: enter
+      //.enter() bounds data to non-existing DOM elements with placeholders.
+      // If we have two data points:
+      //  data = [10,20];
+      //And we manaully crete a cirle element (a green circle):
+      // var circle = canvas.append("circle")
+      //                     .attr("cx", 50)
+      //                     .attr("cy", 100)
+      //                     .attr("r", 25)
+      //                     .attr("fill", "green");
+      //Then the we create cirle elements that bind to our data points, what happens is:
+      // We select all circle elements on the page, currently theres 1, we bind on of our data points to it. But we still have an outstanding data point to be bound. enter() keeps a place holder for 1 of the datapoints (the remaining data point) and binds that data point to a circle (red) element created via the place holder value.Resulting in one green circle and one red cirle. If we didnt create a circle before, two place holders would be created for the two unbound data points and two red circles would result (overlapping ofcourse since dimmensions are the same). If we create two circle mannually we would end up with two green circles since no placeholders would be needed as enough circles are present for our data points to bind.
+      // var circles = canvas.selectAll("circle")
+      //                     .data(data)
+      //                     .enter()
+      //                       .append("circle")
+      //                       .attr("cx", 50)
+      //                       .attr("cy", 50)
+      //                       .attr("r", 25)
+      //                       .attr("fill", "red");;
+
+
+      //CASE 2: exit
+      // .exit() allows us to select elements that are selected but have no data points bound to them due to the fact that there was a surplus of DOM elements in relation to our data points. In the example below we have 2 circle elements with 1 data point. This results in on only one cirle getting bound to our data point (and turning red) while leaving the other circle unbounded and green.
+      // .exit() allows us to have access to the unbounded/excess  selected elements for further manipulation
+      // var circles = canvas.selectAll("circle")
+      //                     .data(data)
+      //                     .attr("fill", "red")
+      //                       .exit()
+      //                         .attr("fill", "blue");
+
+      //CASE 2: update
+      // NOTE the update selection is default if we have equal amounts of data points and selected DOM elements. If we have 2 green circles on or DOM and 2 data points we would result in 2 red circles as each point would get bound to a circle
+
+      var data = [10,20];
+
+      var canvas = d3.select("body")
+                      .append("svg")
+                      .attr("width", 500)
+                      .attr("height", 500);
+
+      var circle1 = canvas.append("circle")
+                          .attr("cx", 50)
+                          .attr("cy", 150)
+                          .attr("r", 25)
+                          .attr("fill", "green");
+
+      var circle2 = canvas.append("circle")
+                          .attr("cx", 50)
+                          .attr("cy", 100)
+                          .attr("r", 25)
+                          .attr("fill", "green");
+
+      var circles = canvas.selectAll("circle")
+                          .data(data)
+                          .attr("fill", "red")
+                            .exit()
+                              .attr("fill", "blue");
+
+
+    </script>
+  </body>
+</html>

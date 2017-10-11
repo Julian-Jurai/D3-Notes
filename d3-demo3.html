@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Using Scales" content="In this demo it was demonstrated how scales were used to adjust data of a specific range to a custom range such a width value or even a color!">
+    <title>D3 Demo 3</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+  </head>
+  <body>
+    <script>
+
+
+    // if we include a 60  ( [20,50,30,60] )in our dataSet we only get a value up to 50 since our svg is limited to 500px; 60 * 10 > 500px excess gets chopped off
+
+    // to make our scales dynamic or adjusted we should remove fixed width and height attributes on our bars and use variables
+    //.attr("width",width) & .attr("height",height);
+
+    //We can use d3.scale() to select a scale d3.scale.linear() calculates a respective range of values for our given domain values in a linear fashion; our domain values refer to our input values ( [20,50,30,60])
+
+    // We use .domain([min, max]) to link our data range to the scale to get an adjusted range
+    // We use .range([min, max]) to set the range of result values we would like; we would use 500 to match the width of our container
+
+    //We use .attr("width", function(d) {return widthScale(d);}) to adjust the values in our dataArray to fit within our range. It passes the data point "d" into our widthScale(d) to map the domain value to a linearly adjusted range value. Our adjusted values are as follows:
+    // d = 20, adjusted = 166.66666666666666
+    // d = 50, adjusted = 416.6666666666667
+    // d = 30, adjusted = 250
+    // d = 60, adjusted = 500
+
+    //We can also d3.scale to not only adjust domain values to other values but also map values between a color range; d3 understands how to adjust gradients.
+    //It done exactly the same with the range arguments changing to color ranges
+    //  d3.scale.linear()
+    // .domain([0, 60])
+    // .range(["red", "blue"]); min, max respectively
+    //We pass this function as a call back to the fill attribute for all bars, .attr("fill", function(d){return colorScale(d) })
+    //where d is an input data point
+
+    //Mouse events can be added as well:
+    //  .on("mouseover", function(d){
+    //   d3.select(this).attr("fill", "orange")
+    // })
+    // .on("mouseout", function(d){
+    //   d3.select(this).attr("fill", function(d){
+    //      return colorScale(d)
+    //   })
+    // })
+
+      var width = 500;
+      var height = 500;
+
+      var widthScale = d3.scale.linear()
+                        .domain([0, 60])
+                        .range([0, width])
+
+      var colorScale = d3.scale.linear()
+                        .domain([0, 60])
+                        .range(["red", "blue"])
+
+      var canvas =   d3.select("body")
+                      .append("svg")
+                      .attr("width",width)
+                      .attr("height",height);
+
+      var dataArray = [20,50,30,60];
+
+
+      var bars = canvas.selectAll("rect")
+                      .data(dataArray)
+                      .enter()
+                      .append("rect")
+                      .on("mouseover", function(d){
+                        d3.select(this).attr("fill", "orange")
+                      })
+                      .on("mouseout", function(d){
+                        d3.select(this).attr("fill", function(d){
+                           return colorScale(d)
+                        })
+                      })
+                      .attr("width", function(d) {
+                        return widthScale(d)
+                        ;})
+                      .attr("fill", function(d){
+                         return colorScale(d)
+                      })
+                      .attr("height", 50)
+                      .attr("y", function(d,i){ return i * 100 })
+
+    </script>
+  </body>
+</html>
