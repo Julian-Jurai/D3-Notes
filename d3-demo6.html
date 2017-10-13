@@ -72,7 +72,7 @@
             .delay(1000)
             .duration(2500)
             .attr("cy", 500)
-            .on("end", function(){
+            .on("end", function(){ //.each for v3
               d3.select(this)
                 .attr("fill","red")
                 .attr("r", 50)
