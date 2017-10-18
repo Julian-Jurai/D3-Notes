@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Using data from external files" content="In this demo it was demonstrated how to use d3 to import data from external files">
+    <title>D3 Demo 5</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+    //loading external files with d3
+    //We can load files from external sources for manipulation in D3
+
+    //NOTE: This needs to be on a server
+    //To load a file (eg. json)
+    //d3.json("file_path",(data)=>{code...})
+    //where data represents the Entire data set
+    //Note on line 29 we must specify the property that we want from the data object (json)
+    // eg: .attr("width",(d)=>{ return d.age }) where
+    //d represents one data point
+    // d = {"name": "Maria", "age": 12}
+
+
+
+    d3.json("./assets/json_data.json", (data) => {
+
+      let canvas = d3.select("body").append("svg")
+                      .attr("width",500)
+                      .attr("height",500)
+
+      canvas.selectAll("rect")
+            .data(data)
+            .enter()
+              .append("rect")
+              .attr("width",(d)=>{ return d.age * 10})
+              .attr("height",20)
+              .attr("y",(d,i)=>{ return i * 50})
+              .attr("fill", "blue")
+
+      canvas.selectAll("text")
+            .data(data)
+              .enter()
+                .append("text")
+                .attr("fill", " yellow")
+                .attr("y",(d,i)=>{ return i * 50 + 15})
+                .text((d) => { return d.name })
+
+    })
+
+
+    </script>
+  </body>
+</html>
