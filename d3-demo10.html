@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Using the arc path generator in D3" content="In this demo it was demonstarted how to use the arc path generator in d3">
+    <title>D3 Demo 10</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+      //A donut chart is in simple terms a series of arcs
+      //Similiar to how we used the line path generator we'll be using the arc line generator
+      //.attr("d",arc)
+      //where arc is a arc path generator
+      // the arc path generator takes a couple more functions
+      // var arc = d3.arc()
+      //           .innnerRadius()
+      //           .outerRadius()
+      //           .startAngle()
+      //           .endAngle()
+      //The angles are measuered in radians
+
+      var canvas = d3.select("body").append("svg")
+                    .attr("width",500)
+                    .attr("height",500)
+
+      var r = 100
+      var p = Math.PI * 2 //360 => 2Pi r
+
+      var arc = d3.arc()
+                .innerRadius(r - 20)
+                .outerRadius(r)
+                .startAngle(0)
+                .endAngle(p - 2)
+
+      var group = canvas.append("g")
+                    .attr("transform", "translate(100,100)")
+
+      group.append("path")
+          .attr("d",arc)
+    </script>
+  </body>
+</html>
