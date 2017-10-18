@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Using paths in D3" content="In this demo it was demonstarted how to create path lines that are bound to data points.">
+    <title>D3 Demo 9</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+    //We can create paths in d3 using d3's built in path generators
+    // if we want to generate a path for a given set of data we can use d3.svg.line
+    //NOTE its d3.line in v4
+    //this function has two associated functions
+    //.x("x")
+    //.y("x")
+    //these will be used to create a path with the given data
+    //this will result in complex path data string
+
+    //after we append the path to our canvas we must pass the data via the "d" attribute
+    //we could manually enter this value eg "d", 278323231
+    //But we use D3 path generator value.
+    // .append("path")
+    // .attr("d", line) where line is a path data string
+    //d = path('M 10 20 L 20 30 L 30 100 L 40 20 L 20 30 L 50 10');``
+
+    //.attr("stroke","#000") - we need to define the line
+    //.attr("fill","none") - we should remove fill as this creates a shape between start and end points and fills the area (not desirable in thes case)
+
+    //note we can use interpolation to achieve some complex graphs
+    //https://www.dashingd3js.com/svg-paths-and-d3js
+
+      var canvas = d3.select("body").append("svg")
+                     .attr("width",500)
+                     .attr("height",500)
+
+      var data = [
+        {x: 10, y: 20},
+        {x: 20, y: 30},
+        {x: 30, y: 100},
+        {x: 40, y: 20},
+        {x: 50, y: 10}
+      ]
+
+      var group = canvas.append("g")
+                  .attr("transform", "translate(100,100)");
+
+      var line = d3.line()
+      .x((d)=> (d.x))
+      .y((d)=>(d.y));
+
+
+      group.selectAll("path")
+            .data([data])
+            .enter()
+              .append("path")
+              .attr("d", line)
+              .attr("stroke","#000")
+              .attr("fill","none")
+              .attr("stroke-width",5)
+
+
+
+    </script>
+  </body>
+</html>
