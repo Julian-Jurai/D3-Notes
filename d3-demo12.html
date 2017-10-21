@@ -33,22 +33,7 @@
       //NOTE d3.svg.diagonal is deprecated in v4
       //use d3 link shape to generate a smooth cubic Bezier curve from a source and target point
 
-      var treeData =
-        {
-          "name": "Top Level",
-          "children": [
-            {
-              "name": "Level 2: A",
-              "children": [
-                { "name": "Son of A" },
-                { "name": "Daughter of A" }
-              ]
-            },
-            { "name": "Level 2: B" }
-          ]
-        };
-
-
+      
       var canvas = d3.select("body").append("svg")
                       .attr("width",500)
                       .attr("height",500)

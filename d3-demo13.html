@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Creating a link (curve) in D3" content="In this demo it was demonstarted link shapes to create curved path between two point d3">
+    <title>D3 Demo 13</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+
+      //to create a tree layout we have to create a tree layout first; such as how we created a pie layout
+
+      //we do this with d3.tree()
+      //we can set the size of this using .size([x,y])
+      //we load the data
+
+      //d3.hierarchy Constructs a root node from the specified hierarchical data
+
+      //if the data is not json we must d3.stratify the data
+
+      //d3.tree Creates a new tree layout with default settings.
+
+      //tree-layout.links() provides the path between our nodes with source and target properties
+
+      //(root) node.descendants() Returns the array of descendant nodes, starting with this node, then followed by each child in topological order
+
+      // rotate nodes from a (default) vertical positon to horizaontal position
+
+      //1. "translate(" + d.y + "," + d.y + ")" swicth x and y
+
+      //2. "var link = d3.linkHorizontal()
+                  // .x(function(d) { return d.y; })
+                  // .y(function(d) { return d.x; });"
+      //switch from d.linkVertical to d3.linkHorizontal
+      //switch x and y
+
+      var treeData = {
+        "name": "Eve",
+        "children": [
+          {
+            "name": "Cain"
+          },
+          {
+            "name": "Seth",
+            "children": [
+              {
+                "name": "Enos"
+              },
+              {
+                "name": "Noam"
+              }
+            ]
+          },
+          {
+            "name": "Awan",
+          },
+          {
+            "name": "Azura"
+          }
+        ]
+      };
+
+
+
+      var canvas = d3.select("body").append("svg")
+                      .attr("width",500)
+                      .attr("height",500)
+                      .append("g")
+                        .attr("transform", "translate(50,50)")
+
+      var root = d3.hierarchy(treeData)
+
+      var tree = d3.tree() //d3.layout.tree v3
+                .size([400,400])
+
+      //source and target data for each link
+      var links = tree(root).links()
+
+      //path data for each data point
+      var link = d3.linkHorizontal()
+                  .x(function(d) { return d.y; })
+                  .y(function(d) { return d.x; });
+
+      var nodes = root.descendants()
+
+      var node = canvas.selectAll(".node")
+                  .data(nodes)
+                  .enter()
+                    .append("g")
+                    .attr("class", "node")
+                    .attr("transform", (d) => (
+                      "translate(" + d.y + "," + d.x + ")"
+                    ))// each node has a unique position set by the tree layout
+
+
+
+      node.append("circle")
+            .attr("r", 5 )
+            .attr("fill", "blue")
+
+      node.append("text")
+            .text((d)=>(d.data.name))
+            .attr("transform","translate(0,-10)")
+
+      canvas.selectAll(".link")
+            .data(links)
+            .enter()
+              .append("path")
+              .attr("class", "link")
+              .attr("stroke", "black")
+              .attr("fill", "none")
+              .attr("d",link)
+
+
+
+    </script>
+  </body>
+</html>
