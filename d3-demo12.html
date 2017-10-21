@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Creating a link (curve) in D3" content="In this demo it was demonstarted link shapes to create curved path between two point d3">
+    <title>D3 Demo 12</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+
+      //the source  expects an object describe the start of our path
+      //the target expects an object describe the end of our path
+      //we use:
+      //.source()
+      //.target
+      // to manually specify start and end points
+      // var link = d3.linkHorizontal()
+      //
+      // var data = {
+      //     source: [100, 100],
+      //     target: [300, 300]
+      //   };
+      //
+      // canvas.append("path")
+      //       .attr("fill","none")
+      //       .attr("stroke","black")
+      //       .attr("d",link(data))
+      //This results in a curve between our start and end points
+
+      //we typically use external data otherwise
+
+      //NOTE d3.svg.diagonal is deprecated in v4
+      //use d3 link shape to generate a smooth cubic Bezier curve from a source and target point
+
+      var treeData =
+        {
+          "name": "Top Level",
+          "children": [
+            {
+              "name": "Level 2: A",
+              "children": [
+                { "name": "Son of A" },
+                { "name": "Daughter of A" }
+              ]
+            },
+            { "name": "Level 2: B" }
+          ]
+        };
+
+
+      var canvas = d3.select("body").append("svg")
+                      .attr("width",500)
+                      .attr("height",500)
+
+
+      // var diagonal = d3.svg.diagonal()
+      //                 .source({x: 10, y:10})
+      //                 .target({x: 300, y:300})
+
+      //we create our path (cubic Bezier curve)
+      var link = d3.linkHorizontal()
+
+      var data = {
+          source: [100, 100],
+          target: [300, 300]
+        };
+
+      canvas.append("path")
+            .attr("fill","none")
+            .attr("stroke","black")
+            .attr("d",link(data))
+
+    </script>
+  </body>
+</html>
