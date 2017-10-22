@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="Creating a Pack layout in D3" content="In this demo it was demonstarted how to create a tree layout using  d3">
+    <title>D3 Demo 14</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+  // the radius of the circle can be used to represent depth or/and value
+  //In this demp we will load the file from an external source
+
+  // We use d3.pack to create a pack layout
+
+  // to get only leaf nodes
+  //we can simply use
+
+      var width = 800;
+      var height = 600;
+
+      var canvas = d3.select("body").append("svg")
+                      .attr("width",width)
+                      .attr("height",height)
+                      .append("g")
+                        .attr("transform", "translate(50,50)")
+
+      var pack = d3.pack()
+                  .size([width, height - 50])
+                  .padding(10)
+
+      d3.json("./assets/hierachy_data.json", (err,data) => {
+
+        if (err) { console.log("error loading file")}
+
+        var root = d3.hierarchy(data)
+        //we must apply the root to the packing layout
+        pack(root);
+
+        var node = canvas.selectAll(".node")
+                    .data(root.descendants())
+                    .enter()
+                      .append("g")
+                      .attr("class", "node")
+                      .attr("transform", (d)=>(
+                        "translate(" + d.x + ","+ d.y + ")"
+                      ))
+
+
+        // to get only leaf nodes
+        //we can simply use a ternary to check if a node has children. If it does append with white color or something of that nature
+        node.append("circle")
+            .attr("r", (d)=>(d.r))
+            .attr("fill", "blue")
+            .attr("opacity", "0.25")
+            .attr("stroke", "black")
+            .attr("stroke-width", "5")
+
+        // dont label parent..it looks weird
+        node.append("text")
+            .text((d)=>{
+              return d.children ? "" : d.data.name
+            })
+            .attr("text-anchor","middle")//align horizontally
+            .attr("dy", ".35em") // align vertically
+            .attr("font-size","1.5em")
+
+
+
+
+
+      })
+
+
+    </script>
+  </body>
+</html>

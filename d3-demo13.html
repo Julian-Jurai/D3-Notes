@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="Creating a link (curve) in D3" content="In this demo it was demonstarted link shapes to create curved path between two point d3">
+    <meta name="Creating a tree layout in D3" content="In this demo it was demonstarted how to create a tree layout using  d3">
     <title>D3 Demo 13</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
   </head>
@@ -70,7 +70,7 @@
                         .attr("transform", "translate(50,50)")
 
       var root = d3.hierarchy(treeData)
-
+      //note if we want nodes with out children to appear to the end instead of at their level we can use the d3.cluster instead of d3.tree
       var tree = d3.tree() //d3.layout.tree v3
                 .size([400,400])
 

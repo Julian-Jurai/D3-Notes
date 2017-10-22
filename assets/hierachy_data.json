@@ -1,0 +1,27 @@
+{
+  "name": "Max",
+  "value": 100,
+  "children": [
+    {
+      "name": "Sylvia",
+      "value": 75,
+      "children": [
+        {"name": "Max", "value": 25},
+        {"name": "Robin", "value": 25},
+        {"name": "Alex", "value": 25}
+      ]
+    },
+    {
+      "name": "David",
+      "value": 75,
+      "children": [
+        {"name": "Frank", "value": 25},
+        {"name": "Peter", "value": 25}
+      ]
+    },
+    {
+      "name": "Pops",
+      "value": 75
+     }
+  ]
+}
