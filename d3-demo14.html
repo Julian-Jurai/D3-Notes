@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="Creating a Pack layout in D3" content="In this demo it was demonstarted how to create a tree layout using  d3">
+    <meta name="Creating a Circle Pack layout in D3" content="In this demo it was demonstarted how to create a circle packing layout using  d3">
     <title>D3 Demo 14</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
   </head>
@@ -34,7 +34,7 @@
         if (err) { console.log("error loading file")}
 
         var root = d3.hierarchy(data)
-        //we must apply the root to the packing layout
+        //wde must apply the root to the packing layout
         pack(root);
 
         var node = canvas.selectAll(".node")
